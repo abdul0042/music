@@ -1,0 +1,43 @@
+:root {
+    color-scheme: dark;
+    --bg-main: #07111f;
+    --bg-secondary: #0d1320;
+    --text-main: #f3eee7;
+    --text-soft: rgba(243, 238, 231, 0.7);
+    --accent-main: #ff9760;
+    --accent-alt: #ffd166;
+    --accent-soft: rgba(255, 209, 102, 0.78);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    background:
+        radial-gradient(circle at top, rgba(255, 151, 96, 0.16), transparent 26%),
+        linear-gradient(180deg, #09111d 0%, #06101b 48%, #040a13 100%);
+    color: var(--text-main);
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+a {
+    color: inherit;
+}
+
+#root {
+    min-height: 100vh;
+}
