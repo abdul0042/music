@@ -1,6 +1,12 @@
 {
   "version": 2,
   "rewrites": [
+    { "source": "/api/stream/:videoId", "destination": "/api/stream.js?videoId=:videoId" },
+    { "source": "/api/lyrics/:artist/:title", "destination": "/api/lyrics.js?artist=:artist&title=:title" },
+    { "source": "/api/library/load/:userId", "destination": "/api/library_load.js?userId=:userId" },
+    { "source": "/api/library/save", "destination": "/api/library_save.js" },
+    { "source": "/api/otp/send", "destination": "/api/otp_send.js" },
+    { "source": "/api/otp/verify", "destination": "/api/otp_verify.js" },
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/((?!api).*)", "destination": "/index.html" }
   ]
