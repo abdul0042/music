@@ -2,7 +2,8 @@
   "version": 2,
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/((?!api).*)", "destination": "/frontend/$1", "check": true },
+    { "source": "/assets/(.*)", "destination": "/frontend/assets/$1" },
+    { "source": "/(favicon.ico|manifest.json|icon-192.png|sw.js)", "destination": "/frontend/$1" },
     { "source": "/((?!api).*)", "destination": "/frontend/index.html" }
   ],
   "builds": [
