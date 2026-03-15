@@ -3,27 +3,35 @@ const ytdl = require('@distube/ytdl-core');
 module.exports = async (req, res) => {
   const { videoId } = req.query;
 
-  console.log('Stream request for videoId:', videoId);
-
   if (!videoId) {
     return res.status(400).json({ error: 'Video ID is required' });
   }
 
+  // Set a timeout to prevent Vercel from killing the function silently
+  const timeout = setTimeout(() => {
+    if (!res.headersSent) {
+      res.status(504).json({ error: 'Resolution timed out' });
+    }
+  }, 9000);
+
   try {
-    const info = await ytdl.getInfo(videoId);
+    const info = await ytdl.getBasicInfo(videoId);
     const format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio', filter: 'audioonly' });
     
+    clearTimeout(timeout);
+
     if (!format || !format.url) {
       throw new Error('No audio format found');
     }
 
-    console.log('Redirecting to stream URL');
-    // We use a temporary redirect to the direct Google Video URL
-    // Note: This URL is often IP-restricted, so a proxy might be needed if this fails.
+    // Redirect to the direct stream URL
     res.setHeader('Cache-Control', 'no-cache');
     res.redirect(302, format.url);
   } catch (error) {
+    clearTimeout(timeout);
     console.error('Streaming error:', error.message);
-    res.status(500).json({ error: 'Failed to resolve stream', details: error.message });
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Failed to resolve stream', details: error.message });
+    }
   }
 };
