@@ -4,8 +4,10 @@ const ytdl = require('@distube/ytdl-core');
 const PIPED_INSTANCES = [
   'https://pipedapi.kavin.rocks',
   'https://pipedapi.tokhmi.xyz',
-  'https://pipedapi.adminforge.de',
-  'https://api.piped.victr.me'
+  'https://pipedapi.moomoo.me',
+  'https://pipedapi.syncord.org',
+  'https://api.piped.privacydev.net',
+  'https://pipedapi.r48.moe'
 ];
 
 async function resolveViaPiped(videoId) {
