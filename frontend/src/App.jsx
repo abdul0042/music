@@ -17,7 +17,7 @@ import './App.css';
 
 const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5010'
-    : ''; // Relative to the same host in production
+    : window.location.origin;
 
 function normalizeSong(song) {
     const videoId = song.videoId || song.id;
@@ -153,7 +153,7 @@ function App() {
 
     const persistLibrary = async (nextLikedSongs, nextPlaylists) => {
         if (!user) return;
-        
+
         // Always save to localStorage immediately so data is NEVER lost
         localStorage.setItem(`musify_library_${user.uid}`, JSON.stringify({
             likedSongs: nextLikedSongs,
@@ -407,7 +407,7 @@ function App() {
                         />
                         <button type="submit" className="primary-button">Search</button>
                     </form>
-                    
+
                     {user ? (
                         <button className="nav-profile-btn" onClick={() => setView(view === 'profile' ? 'browse' : 'profile')}>
                             <img src={user.photoURL} alt={user.displayName} />
@@ -484,8 +484,8 @@ function App() {
                                                             className="ghost-button">
                                                             Play
                                                         </button>
-                                                        <button 
-                                                            onClick={() => selectedPlaylist.id === 'liked' ? toggleLike(song) : removeSongFromPlaylist(selectedPlaylist.id, song.videoId)} 
+                                                        <button
+                                                            onClick={() => selectedPlaylist.id === 'liked' ? toggleLike(song) : removeSongFromPlaylist(selectedPlaylist.id, song.videoId)}
                                                             className="icon-button"
                                                         >
                                                             Drop
@@ -577,7 +577,7 @@ function App() {
                     </>
                 ) : (
                     <div className="profile-view-wrapper" style={{ gridColumn: 'span 3' }}>
-                        <ProfileView 
+                        <ProfileView
                             user={user}
                             likedSongs={likedSongs}
                             playlists={playlists}
@@ -666,9 +666,9 @@ function App() {
                 </footer>
             )}
 
-            <AuthModal 
-                isOpen={isAuthModalOpen} 
-                onClose={() => setIsAuthModalOpen(false)} 
+            <AuthModal
+                isOpen={isAuthModalOpen}
+                onClose={() => setIsAuthModalOpen(false)}
                 onAuthSuccess={() => setIsAuthModalOpen(false)}
                 onManualUserSet={(manualUser) => {
                     setUser(manualUser);
