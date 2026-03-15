@@ -1,32 +1,29 @@
-const { Innertube } = require('youtubei.js');
-
-let youtube;
+const ytdl = require('@distube/ytdl-core');
 
 module.exports = async (req, res) => {
   const { videoId } = req.query;
+
+  console.log('Stream request for videoId:', videoId);
 
   if (!videoId) {
     return res.status(400).json({ error: 'Video ID is required' });
   }
 
   try {
-    if (!youtube) {
-      youtube = await Innertube.create();
+    const info = await ytdl.getInfo(videoId);
+    const format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio', filter: 'audioonly' });
+    
+    if (!format || !format.url) {
+      throw new Error('No audio format found');
     }
 
-    const info = await youtube.getBasicInfo(videoId);
-    const format = info.chooseFormat({ type: 'audio', quality: 'best' });
-    const url = format.url;
-
-    if (!url) {
-      throw new Error('Could not find audio URL');
-    }
-
-    // Redirect to the direct stream URL
-    // Note: Some YouTube URLs might be restricted by IP, but this is the simplest Node-only way.
-    res.redirect(url);
+    console.log('Redirecting to stream URL');
+    // We use a temporary redirect to the direct Google Video URL
+    // Note: This URL is often IP-restricted, so a proxy might be needed if this fails.
+    res.setHeader('Cache-Control', 'no-cache');
+    res.redirect(302, format.url);
   } catch (error) {
-    console.error('Streaming error:', error);
+    console.error('Streaming error:', error.message);
     res.status(500).json({ error: 'Failed to resolve stream', details: error.message });
   }
 };
