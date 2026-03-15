@@ -1,26 +1,21 @@
 {
   "version": 2,
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/backend/server.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/frontend/dist/$1"
-    }
+    { "source": "/api/search", "destination": "/api/search.js" },
+    { "source": "/api/stream/:videoId", "destination": "/api/stream.js?videoId=:videoId" },
+    { "source": "/api/lyrics/:artist/:title", "destination": "/api/lyrics.js?artist=:artist&title=:title" },
+    { "source": "/api/library/save", "destination": "/api/library_save.js" },
+    { "source": "/api/library/load/:userId", "destination": "/api/library_load.js?userId=:userId" },
+    { "source": "/api/otp/send", "destination": "/api/otp_send.js" },
+    { "source": "/api/otp/verify", "destination": "/api/otp_verify.js" },
+    { "source": "/(.*)", "destination": "/frontend/dist/$1" }
   ],
   "builds": [
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "frontend/package.json",
+    { "src": "api/*.js", "use": "@vercel/node" },
+    { 
+      "src": "frontend/package.json", 
       "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "config": { "distDir": "dist" }
     }
   ]
 }

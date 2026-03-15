@@ -6,6 +6,19 @@
     "dev:backend": "cd backend && npm run start",
     "build:frontend": "cd frontend && npm install && npm run build",
     "build:backend": "cd backend && npm install",
-    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "vercel-build": "npm run build:frontend"
+  },
+  "dependencies": {
+    "@distube/ytdl-core": "^4.16.12",
+    "@vercel/node": "^3.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^4.18.2",
+    "firebase": "^12.10.0",
+    "firebase-admin": "^13.7.0",
+    "nodemailer": "^8.0.2",
+    "youtubei.js": "^16.0.1",
+    "ytmusic-api": "^5.1.0"
   }
 }
