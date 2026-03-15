@@ -1,7 +1,7 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/stream/:videoId", "destination": "/api/stream.js?videoId=:videoId" },
+    { "source": "/api/stream/:videoId", "destination": "/api/stream.py?videoId=:videoId" },
     { "source": "/api/lyrics/:artist/:title", "destination": "/api/lyrics.js?artist=:artist&title=:title" },
     { "source": "/api/library/load/:userId", "destination": "/api/library_load.js?userId=:userId" },
     { "source": "/api/library/save", "destination": "/api/library_save.js" },
