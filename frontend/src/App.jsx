@@ -15,7 +15,9 @@ import AuthModal from './components/AuthModal';
 import ProfileView from './components/ProfileView';
 import './App.css';
 
-const BACKEND_URL = 'http://localhost:5010';
+const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5010'
+    : ''; // Relative to the same host in production
 
 function normalizeSong(song) {
     const videoId = song.videoId || song.id;
