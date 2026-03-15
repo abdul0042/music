@@ -7,7 +7,11 @@ const PIPED_INSTANCES = [
   'https://pipedapi.moomoo.me',
   'https://pipedapi.syncord.org',
   'https://api.piped.privacydev.net',
-  'https://pipedapi.r48.moe'
+  'https://pipedapi.r48.moe',
+  'https://pipedapi.lunar.icu',
+  'https://pipedapi.qdi.rocks',
+  'https://pipedapi.us.to',
+  'https://pipedapi.drgns.space'
 ];
 
 async function resolveViaPiped(videoId) {
@@ -18,9 +22,12 @@ async function resolveViaPiped(videoId) {
       if (!response.ok) continue;
       
       const data = await response.json();
-      // Piped returns audio-only streams in hls or separate formats
-      // Format 249, 250, 251 are Opus. Format 140 is M4A.
-      const audioStream = data.audioStreams?.find(s => s.bitrate > 0) || data.audioStreams?.[0];
+      
+      // Piped instances often return M4A or Opus streams
+      // We prioritize audioStreams that have a URL and are marked as audioOnly
+      const audioStream = data.audioStreams?.find(s => s.codec === 'opus' || s.format === 'M4A') || 
+                          data.audioStreams?.[0] ||
+                          (data.hls ? { url: data.hls } : null);
       
       if (audioStream && audioStream.url) {
         return audioStream.url;
